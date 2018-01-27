@@ -11,6 +11,9 @@ import Grid from 'material-ui/Grid/Grid';
 import Profile from '../profile/profile';
 
 const styles = {
+  card: {
+    cursor: 'pointer'
+  },
   media: {
     height: 200,
   },
@@ -30,7 +33,7 @@ class ProfileCard extends Component {
     const { classes } = this.props;
     return (
       <Grid item md={3}>
-        <Card onClick={this.openProfile.bind(this)}>
+        <Card className={classes.card} onClick={this.openProfile.bind(this)}>
           <CardMedia
             className={classes.media}
             image="/static/images/cards/contemplative-reptile.jpg"
