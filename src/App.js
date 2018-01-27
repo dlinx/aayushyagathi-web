@@ -1,24 +1,18 @@
 import React, { Component } from 'react';
 import { Store, Provider, connect } from 'react-redux';
-import logo from './logo.svg';
-import './App.css';
 import { Header } from './components/header/header';
+
 import { Login } from './components/login/login';
-import { Home } from './components/home/home'
+import { Home } from './components/home/home';
 
 class App extends Component {
   render() {
-    let page;
-    if (this.props.loggedInUser) {
-      page = <Home />
-    } else {
-      page = <Login />
-    }
+    const { loggedInUser, location } = this.props;
+    console.log(this.props)
     return (
-      <div>
-        <Header />
-        {page}
-      </div>
+      loggedInUser ?
+        (<Home location={location} />) :
+        (<Login />)
     );
   }
 }
