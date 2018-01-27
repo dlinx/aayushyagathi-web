@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
@@ -8,6 +10,7 @@ import PropTypes from 'prop-types';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import Menu from 'material-ui/Menu/Menu';
 import AccountCircle from 'material-ui-icons/AccountCircle';
+import LinearProgress from 'material-ui/Progress/LinearProgress';
 
 const styles = {
   root: {
@@ -23,7 +26,7 @@ const styles = {
 };
 
 
-export class Header extends Component {
+export class HeaderComponent extends Component {
   state = {
     auth: true,
     anchorEl: null,
@@ -45,18 +48,17 @@ export class Header extends Component {
     const open = Boolean(anchorEl);
     return (
       <div className={classes.root}>
-        <AppBar position="static" color="secondary">
+        <AppBar position="static" color="primary">
           <Toolbar>
             <Typography type="title" color="inherit" className={classes.flex}>
               Title
         </Typography>
-            <div>
+            {this.props.loggedInUser && <div>
               <IconButton
                 aria-owns={open ? 'menu-appbar' : null}
                 aria-haspopup="true"
                 onClick={this.handleMenu}
-                color="inherit"
-              >
+                color="inherit">
                 <AccountCircle />
               </IconButton>
               <Menu
@@ -76,16 +78,28 @@ export class Header extends Component {
                 <MenuItem onClick={this.handleClose}>Profile</MenuItem>
                 <MenuItem onClick={this.handleClose}>Logout</MenuItem>
               </Menu>
-            </div>
+            </div>}
           </Toolbar>
         </AppBar>
+        {/* <LinearProgress /> */}
       </div>
     )
   }
 }
 
-Header.propTypes = {
+HeaderComponent.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-export default withStyles(styles)(Header);
+const headerWithStyles = withStyles(styles)(HeaderComponent);
+
+function mapStateToProps(state) {
+  console.log('state', state)
+  return {
+    loggedInUser: state.loggedInUser,
+    userProfile: state.userProfile
+  };
+}
+
+export const Header = connect(mapStateToProps)(headerWithStyles);
+
 
